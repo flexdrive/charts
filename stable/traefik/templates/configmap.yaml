@@ -122,6 +122,7 @@ data:
     {{- if eq .Values.acme.challengeType "dns-01" }}
       [acme.dnsChallenge]
       provider = "{{ .Values.acme.dnsProvider.name }}"
+      delayBeforeCheck = {{ .Values.acme.dnsProvider.delayBeforeCheck }}
     {{- else if eq .Values.acme.challengeType "http-01" }}
       [acme.httpChallenge]
       entryPoint = "http"
