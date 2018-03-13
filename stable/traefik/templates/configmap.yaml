@@ -107,6 +107,13 @@ data:
       {{ printf "\"%s\" = \"%s\"" $header $action }}
     {{- end}}
     {{- end}}
+    {{- if .Values.traefikLogs.enabled }}
+    [traefikLog]
+    {{- if .Values.traefikLogs.filePath }}
+    filePath = "{{ .Values.traefikLogs.filePath }}"
+    {{- end}}
+    format = "{{ .Values.traefikLogs.format }}"
+    {{- end}}
     {{- if .Values.acme.enabled }}
     [acme]
     email = "{{ .Values.acme.email }}"
