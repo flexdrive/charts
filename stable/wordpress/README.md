@@ -59,7 +59,7 @@ The following table lists the configurable parameters of the WordPress chart and
 | `wordpressLastName`              | Last name                                  | `LastName`                                              |
 | `wordpressBlogName`              | Blog name                                  | `User's Blog!`                                          |
 | `wordpressTablePrefix`           | Table prefix                               | `wp_`                                                   |
-| `allowEmptyPassword`             | Allow DB blank passwords                   | `yes`                                                   |
+| `allowEmptyPassword`             | Allow DB blank passwords                   | `true`                                                  |
 | `smtpHost`                       | SMTP host                                  | `nil`                                                   |
 | `smtpPort`                       | SMTP port                                  | `nil`                                                   |
 | `smtpUser`                       | SMTP user                                  | `nil`                                                   |
@@ -230,3 +230,15 @@ kubectl create secret tls wordpress.local-tls --key /path/to/key.key --cert /pat
 
 Please see [this example](https://github.com/kubernetes/contrib/tree/master/ingress/controllers/nginx/examples/tls)
 for more information.
+
+## Upgrading
+
+### To 3.0.0
+
+Backwards compatibility is not guaranteed unless you modify the labels used on the chart's deployments.
+Use the workaround below to upgrade from versions previous to `3.0.0`. The following example assumes that the release name is `wordpress`:
+
+```console
+$ kubectl patch deployment wordpress-wordpress --type=json -p='[{"op": "remove", "path": "/spec/selector/matchLabels/chart"}]'
+$ kubectl delete statefulset wordpress-mariadb --cascade=false
+```
